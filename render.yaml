@@ -1,20 +1,17 @@
+# Versão de DEMONSTRAÇÃO (plano gratuito, sem disco persistente).
+# Os usuários cadastrados são apagados quando o serviço reinicia ou "dorme".
+# Para produção: plan: starter + bloco "disk" + DATA_DIR=/var/data (ver histórico do git).
 services:
   - type: web
     name: academia-moving
     runtime: node
     rootDir: moving
-    plan: starter
+    plan: free
     buildCommand: npm install --include=dev && npm run build
     startCommand: node server/index.js
     healthCheckPath: /api/setup-status
     envVars:
       - key: NODE_ENV
         value: production
-      - key: DATA_DIR
-        value: /var/data
       - key: SESSION_SECRET
         generateValue: true
-    disk:
-      name: moving-data
-      mountPath: /var/data
-      sizeGB: 1
